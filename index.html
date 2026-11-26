@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -45,27 +46,6 @@
     margin-top: 0.75rem;
     font-weight: 500;
   }
-// Keep-awake silent audio loop for Amazon Silk browser
-let audioCtx;
-function keepAwake() {
-if (!audioCtx) {
-const AudioContext = window.AudioContext || window.webkitAudioCont
-audioCtx = new AudioContext();
-const oscillator = audioCtx.createOscillator();const gainNode = audioCtx.createGain();
-gainNode.gain.value = 0.001; // Practically silent
-oscillator.connect(gainNode);
-gainNode.connect(audioCtx.destination);
-oscillator.start();
-const status = document.getElementById('status');
-status.textContent = 'Awake lock active';
-setTimeout(() => { status.style.opacity = '0'; }, 3000);
-}
-if (document.documentElement.requestFullscreen && !document.fullscre
-document.documentElement.requestFullscreen().catch(() => {});
-}
-}
-document.body.addEventListener('click', keepAwake);
-document.body.addEventListener('touchstart', keepAwake);
 
 </style>
 </head>
@@ -129,4 +109,57 @@ document.body.addEventListener('touchstart', keepAwake);
   </script>
 
 </body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #keep-open-btn {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-family: sans-serif;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- One-time tap required by Silk's autoplay security policy -->
+  <button id="keep-open-btn" onclick="keepSilkOpen()">Keep Screen Open</button>
+
+  <!-- Embedded silent WAV audio on a continuous loop -->
+  <audio id="silent-audio" loop>
+    <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" type="audio/wav">
+  </audio>
+
+  <script>
+    function keepSilkOpen() {
+      const audio = document.getElementById('silent-audio');
+      const btn = document.getElementById('keep-open-btn');
+      
+      audio.play().then(() => {
+        // Hides the button once active
+        btn.style.display = 'none';
+      }).catch((error) => {
+        console.error("Playback failed:", error);
+      });
+    }
+  </script>
+
+</body>
 </html>
+</html>
+
+ 
