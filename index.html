@@ -52,24 +52,7 @@
 
 <body>
 
-  <button id="fullscreen-btn">Toggle Fullscreen</button>
-
-  <script>
-    const btn = document.getElementById("fullscreen-btn");
-
-    btn.addEventListener("click", () => {
-      if (!document.fullscreenElement) {
-        // Enter full screen
-        document.documentElement.requestFullscreen().catch((err) => {
-          console.error(`Error enabling fullscreen: ${err.message}`);
-        });
-      } else {
-        // Exit full screen
-        document.exitFullscreen();
-      }
-    });
-  </script>
-
+ 
 </body>
 <body>
 
