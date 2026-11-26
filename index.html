@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: center;
     background-color: #111827; /* Dark background */
-    color: #f9fafb;            /* Crisp white text */
+    color: #FF0000;            /* Crisp white text is code #f9fafb */
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     padding: 3rem 1.5rem;
     border-radius: 16px;
@@ -34,6 +34,28 @@
     margin-top: 0.75rem;
     font-weight: 500;
   }
+// Keep-awake silent audio loop for Amazon Silk browser
+let audioCtx;
+function keepAwake() {
+if (!audioCtx) {
+const AudioContext = window.AudioContext || window.webkitAudioCont
+audioCtx = new AudioContext();
+const oscillator = audioCtx.createOscillator();const gainNode = audioCtx.createGain();
+gainNode.gain.value = 0.001; // Practically silent
+oscillator.connect(gainNode);
+gainNode.connect(audioCtx.destination);
+oscillator.start();
+const status = document.getElementById('status');
+status.textContent = 'Awake lock active';
+setTimeout(() => { status.style.opacity = '0'; }, 3000);
+}
+if (document.documentElement.requestFullscreen && !document.fullscre
+document.documentElement.requestFullscreen().catch(() => {});
+}
+}
+document.body.addEventListener('click', keepAwake);
+document.body.addEventListener('touchstart', keepAwake);
+
 </style>
 </head>
 <body>
